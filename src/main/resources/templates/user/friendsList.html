@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html;	charset=UTF-8" />
+<title>Listof your friends</title>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans"
+	rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+	integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+	crossorigin="anonymous" />
+<link rel="stylesheet" href="../css/main.css" />
+
+
+</head>
+<body sec:authorize="isAuthenticated()"
+	style="background-color: #e7e8e8">
+	<nav th:replace="fragments/usermenu"></nav>
+
+	<div class="container">
+		<div class="row my-5 py-5 pl-4">
+			<div class="col ">
+				
+
+					
+					<div class="row mt-4 ">
+						<div class="col tborder mx-1 py-4">
+							<div th:if="${friends}">
+							
+								<h2>Your friends:</h2>
+								<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Username</th>
+				<th scope="col">E-mail</th>
+				<th scope="col">Send message</th>
+				<th scope="col">Delete friend</th>
+			</tr>
+		</thead>
+		<tbody>
+									<tr th:each="friend: ${friends}" >
+									<td>
+									<span th:text="${friend.username}" style="color:#001021"></span></td>
+										<td>
+										<span
+										th:text="${friend.email}" style="color:#df2935"></span> </td>
+										<td>
+										<a
+										th:href="@{/user/sendMessage}"><input type="submit"
+											value="Send message to"
+											class="btn btn-outline-success" /></a></td>
+											
+										<td><span
+										th:unless="${friend.username.equals('service')}"> <a
+											th:href="@{/user/deleteFriend(username=${friend.username})}"><input
+												type="submit" value="Delete friend"
+												class="btn btn-outline-success btn-back " /></a></span></td>
+								</tr>
+								</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	<footer th:include="fragments/footer	::	pagefooter"></footer>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+		integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+		crossorigin="anonymous"></script>
+
+
+</body>
+</html>

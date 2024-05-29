@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html;	charset=UTF-8" />
+<title>User Menu</title>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans"
+	rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+	integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+	crossorigin="anonymous" />
+<link rel="stylesheet" href="../css/main.css" />
+
+
+</head>
+<body sec:authorize="isAuthenticated()"
+	style="background-color: #e7e8e8">
+	<nav th:replace="fragments/usermenu"></nav>
+
+
+	<div class="container">
+		<div class="row my-5 py-5 px-3">
+			<div class="col ">
+				<div class="row">
+					<div class="col tborder mx-3 py-4"
+						style="background-color: #ffffff; height: 110px;">
+						<a th:href="@{/user/myBets}"> <img src="../images/choices.png" />See
+							bets
+						</a>
+					</div>
+					<div class="col tborder mx-3 py-4"
+						style="background-color: #ffffff; height: 110px;">
+						<a th:href="@{/user/funds}"> <img src="../images/money.png"
+							class="mr-3" />Add funds
+						</a>
+					</div>
+					<div class="col tborder mx-3 py-4"
+						style="background-color: #ffffff; height: 110px;">
+						<a th:href="@{/user/sendMessage}"> <img
+							src="../images/paper-plane.png" class="mr-2" />Send message
+						</a>
+					</div>
+					<div class="col tborder mx-3 py-4"
+						style="background-color: #ffffff; height: 110px;">
+						<a th:href="@{/user/addFriends}"> <img
+							src="../images/add-user.png " class="mr-2" />Invite friends
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:if="${message}">
+		<span th:text="${message}"></span>
+	</div>
+	<div class="container">
+		<div class="row my-5 py-5 px-3">
+			<div class="col ">
+
+				<h2>Quick search:</h2>
+				<form class="form-inline mb-3">
+					<div class="form-group mx-sm-3 mb-2">
+						<label for="SearchMatch" class="sr-only">Search a Match</label> <input
+							type="text" class="form-control" id="SearchMatch"
+							placeholder="Search a match" />
+					</div>
+					<input type="submit" value="Find!"
+						class="btn btn-outline-success mb-2" />
+				</form>
+
+
+				<h1>
+					DianinhaBets: <span th:text="${session.currentFunds} + ' PLN'"></span>
+				</h1>
+
+				<div class="row mt-4 ">
+					<div class="col tborder mx-1 py-4"
+						style="background-color: #ffffff">
+
+						<h3>You have active bets on games:</h3>
+						<div class="betstbl">
+							<table class="table table-striped usertbl">
+								<thead>
+									<tr>
+										<th scope="col">Sport</th>
+										<th scope="col">Competition</th>
+										<th scope="col">Teams</th>
+										<th scope="col">Score</th>
+										<th scope="col">Time</th>
+									</tr>
+								</thead>
+								<tbody id="userLiveResultsUserBets">
+
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4  ">
+					<div class="col tborder mx-1 py-4"
+						style="background-color: #ffffff">
+
+						<h3>Upcoming games:</h3>
+						<div class="betstbl">
+							<table class="table table-striped usertbl">
+								<thead>
+									<tr>
+										<th scope="col">Observe</th>
+										<th scope="col">Sport</th>
+										<th scope="col">League</th>
+										<th scope="col">Teams</th>
+										<th scope="col">Score</th>
+										<th scope="col">Date</th>
+										<th scope="col">Time</th>
+										<th scope="col">Home</th>
+										<th scope="col">Draw</th>
+										<th scope="col">Away</th>
+									</tr>
+								</thead>
+								<tbody id="userLiveResultsPopularBets">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4 ">
+
+					<div class="col tborder mx-1 py-4"
+						style="background-color: #ffffff">
+
+						<h3>Observed:</h3>
+						<div class="betstbl">
+							<table class="table table-striped usertbl">
+								<thead>
+									<tr>
+										<th scope="col">Do not obsv.</th>
+										<th scope="col">Sport</th>
+										<th scope="col">Competition</th>
+										<th scope="col">Teams</th>
+										<th scope="col">Score</th>
+										<th scope="col">Time</th>
+										<th scope="col">Home</th>
+										<th scope="col">Draw</th>
+										<th scope="col">Away</th>
+									</tr>
+								</thead>
+								<tbody id="userLiveResultsObserved">
+
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4 ">
+
+					<div class="col tborder mx-1 pt-4"
+						style="background-color: #ffffff">
+
+						<h3>Live just now:</h3>
+						<div class="betstbl">
+							<table class="table table-striped usertbl">
+								<thead>
+									<tr>
+										<th scope="col">Sport</th>
+										<th scope="col">Competition</th>
+										<th scope="col">Teams</th>
+										<th scope="col">Score</th>
+										<th scope="col">Time</th>
+										<th scope="col">Home</th>
+										<th scope="col">Draw</th>
+										<th scope="col">Away</th>
+									</tr>
+								</thead>
+								<tbody id="userLiveResults">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row my-4 py-4 px-1">
+				<div class="col ">
+					<h1>Promotions</h1>
+					<div class="row mt-4 ">
+						<div class="col tborder mx-1 py-4">
+							<h2>Active Promotions:</h2>
+							<ul class="list-group">
+								<li class="list-group-item list-group-item-red">Gain 10£
+									for register</li>
+								<li class="list-group-item list-group-item-blue">+20% for
+									the first bet!</li>
+								<li class="list-group-item list-group-item-red">+10% for
+									betting on ValentinesDay</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:include="fragments/footer	::	pagefooter"></footer>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+		integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript"
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			function updateUserpage() {
+				$.ajax({
+					url : "http://localhost:5555/results/userLiveResults",
+					dataType : "html",
+					cache : false,
+					success : function(data) {
+						$('#userLiveResults').html(data);
+					}
+				});
+			}
+			updateUserpage();
+			setInterval(updateUserpage, 1000);
+		});
+	</script>
+	<script th:inline="javascript">
+		$(document)
+				.ready(
+						function() {
+							function updateUserpage2() {
+								$
+										.ajax({
+											url : "http://localhost:5555/results/userLiveResultsActiveBets",
+											dataType : "html",
+											cache : false,
+											success : function(data) {
+												$('#userLiveResultsUserBets')
+														.html(data);
+											}
+										});
+							}
+							updateUserpage2();
+							setInterval(updateUserpage2, 1000);
+						});
+	</script>
+	<script th:inline="javascript">
+		$(document)
+				.ready(
+						function() {
+							function updateUserpage3() {
+								$
+										.ajax({
+											url : "http://localhost:5555/results/userLiveResultsPopularBets",
+											dataType : "html",
+											cache : false,
+											success : function(data) {
+												$('#userLiveResultsPopularBets')
+														.html(data);
+											}
+										});
+							}
+							updateUserpage3();
+							setInterval(updateUserpage3, 1000);
+						});
+	</script>
+	<script th:inline="javascript">
+		$(document)
+				.ready(
+						function() {
+							function updateUserpage4() {
+								$
+										.ajax({
+											url : "http://localhost:5555/results/userLiveResultsObserved",
+											dataType : "html",
+											cache : false,
+											success : function(data) {
+												$('#userLiveResultsObserved')
+														.html(data);
+											}
+										});
+							}
+							updateUserpage4();
+							setInterval(updateUserpage4, 1000);
+						});
+	</script>
+
+
+</body>
+</html>

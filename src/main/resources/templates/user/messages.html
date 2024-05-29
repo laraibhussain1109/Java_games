@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html;	charset=UTF-8" />
+<title>Messages</title>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans"
+	rel="stylesheet" />
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+	integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+	crossorigin="anonymous" />
+
+<link rel="stylesheet" href="../css/main.css" />
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+	integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+	crossorigin="anonymous"></script>
+</head>
+<body sec:authorize="isAuthenticated()"
+	style="background-color: #e7e8e8">
+	<nav th:replace="fragments/usermenu"></nav>
+	<div class="container">
+		<div class="row my-5 py-5 pl-4">
+			<div class="col ">
+
+				<h1>Your messages:</h1>
+
+				<div class="row mt-4 ">
+					<div class="col tborder ml-4 mr-1 py-4">
+						<h2 th:text="'Received Messages:'"></h2>
+						<ul class="list-group">
+							<li class="list-group-item" th:each="recieveM: ${recieved}"><span
+								th:text="'From: ' + ${recieveM.sender.username}"></span>
+
+								<div id="accordion" role="tablist" aria-multiselectable="true">
+									<div class="card">
+										<div class="card-header" role="tab"
+											th:id="'heading'+(${recieveM.id})">
+											<h4>
+												<a data-toggle="collapse" data-parent="#accordion"
+													th:href="'#collapse'+${recieveM.id}" aria-expanded="true"><span
+													th:text="${recieveM.title}"></span></a>
+											</h4>
+										</div>
+										<div th:id="'collapse'+(${recieveM.id})" class="collapse"
+											role="tabpanel">
+											<div class="card-block">
+												<span th:text="${recieveM.content}"></span>
+											</div>
+										</div>
+
+									</div>
+								</div></li>
+						</ul>
+
+						<p>
+							<a th:href="@{/user/sendMessage}"><input type="submit"
+								value="Send new message"
+								class="btn btn-outline-success my-2 my-sm-2 " /></a>
+						</p>
+					</div>
+					<div class="col tborder mr-4 ml-1 py-4">
+						<h2 th:text="'Sent messages:'"></h2>
+						<ul class="list-group">
+							<li th:each="sendM: ${send}" class="list-group-item">To:
+								<ul class="list-group">
+									<li th:each="sendToU: ${sendM.recievers}"><span
+										th:text="${sendToU.username}" class="list-group-item"></span></li>
+								</ul>
+								<div class="panel-group">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" th:href="'#collapseS'+${sendM.id}"><span
+													th:text="${sendM.title}"></span></a>
+											</h4>
+										</div>
+										<div th:id="'collapseS'+(${sendM.id})"
+											class="panel-collapse collapse">
+											<div class="panel-body">
+												<span th:text="${sendM.content}"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:include="fragments/footer	::	pagefooter"></footer>
+
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+
+
+
+</body>
+</html>
